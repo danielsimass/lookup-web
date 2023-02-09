@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from "@mui/material"
 import { Console } from "console"
 import { useEffect, useState } from "react"
+import { AppTopBar } from "../../components/appBar"
 import { ViewInvonce } from "../../components/InvoiceView"
 import { NewTransactionDrawer } from "../../components/newTransactionDrawer"
 import { Container } from "./styles"
@@ -14,6 +15,7 @@ export const ViewInvoicePage = () => {
 
     return (
         <Container >
+            <AppTopBar />
             <NewTransactionDrawer setIsDrawerOpen={setIsDrawerOpen} isDrawerOpen={isDrawerOpen} />
             <Box id="header-page" sx={{display: 'flex', width: '100%', justifyContent: 'space-between', px:10}}>
                 <Typography  variant="h3" fontFamily={'sans-serif'}>

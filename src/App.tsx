@@ -11,11 +11,8 @@ import { AppRoutes } from './routes';
 function App() {
   return (
     <>
-    <ThemeProvider theme={theme}>
-    <GlobalStyle />
-
+   
     <AppRoutes />
-    </ThemeProvider> 
     </>
   );
 }

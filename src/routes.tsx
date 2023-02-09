@@ -8,16 +8,16 @@ import { ViewInvoicePage } from './pages/viewInvoice';
 export const AppRoutes = () => (
   <div>
   <Switch>
-    <Route exact path={["/login", "/"]}>
-      <LogInPage />
-    </Route>
-    <Route exact path="/signup">
-      <SingUpPage />
-    </Route>
-    <Route path="*">
-      <AppTopBar />
+    <Route exact path={["/login", "/"]} component={LogInPage} />
+      {/* <LogInPage />
+    </Route> */}
+    <Route exact path="/signup" component={SingUpPage} />
+      {/* <SingUpPage />
+    </Route> */}
+    {/* <Route path="*">
+      <AppTopBar /> */}
       <Route path='/view' component={ViewInvoicePage} />
-    </Route>
+    {/* </Route> */}
   </Switch>
 </div>
   );

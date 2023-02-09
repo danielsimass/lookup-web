@@ -11,7 +11,9 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Fragment, useState } from 'react';
-
+import CategoryIcon from '@mui/icons-material/Category';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 
 export const Menu = ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (state: boolean) => void}) => {
 
@@ -22,29 +24,30 @@ export const Menu = ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (state: b
       role="presentation"
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+          <ListItem key={'category'} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <CategoryIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={"Categorias"} />
             </ListItemButton>
           </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+          <ListItem key={'accounts'} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <AccountBalanceIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={"Contas"} />
             </ListItemButton>
           </ListItem>
-        ))}
+          <ListItem key={'notes'} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <TextSnippetIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Notas"} />
+            </ListItemButton>
+          </ListItem>
       </List>
     </Box>
   );

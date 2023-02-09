@@ -16,7 +16,7 @@ export const SignIn = () => {
       email: data.get('email'),
       password: data.get('password'),
     });
-    history.push("/view")
+    // history.push("/view")
   };
 
   const history = useHistory()
@@ -63,14 +63,16 @@ export const SignIn = () => {
               autoComplete="current-password"
               variant='standard'
             />
+              <Link to="/view">
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              ACESSAR
+                ACESSAR
             </Button>
+              </Link>
             <Link to="/singup" >
               <Typography color={'primary.main'} style={{textDecoration: 'none'}} >
                 Registre-se
