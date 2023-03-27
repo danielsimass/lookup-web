@@ -1,12 +1,13 @@
 import { createGlobalStyle } from 'styled-components'
 // import font from '../fonts/font.otf'
 
+
 export const GlobalStyle = createGlobalStyle`
     :root {
         --background: #fafafac0;
         --red: #e52e4d;
         --green: #33cc95;
-        --blue: #59cbe8;
+        --blue: #0E4065;
         --bluck: #11111f
         --text-title: #363f5f;
         --text-body: #969cb3;

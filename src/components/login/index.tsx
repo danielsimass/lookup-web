@@ -7,19 +7,44 @@ import Container from '@mui/material/Container';
 import logo from '../../assets/logo.png'
 import { Paper, Typography } from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
+import { AuthContext } from '../../auth/auth.context';
+import { useContext } from 'react';
+import { RoleTypeEnum } from '../../common/enums/roleType.enum';
+import { UserContext } from '../../hooks/useUser';
 
 export const SignIn = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const {login} = useContext(AuthContext);
+  const { handleSetUser } = useContext(UserContext)
+  const history = useHistory()
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    // history.push("/view")
-  };
+    const email = `${data.get('email')}`
+    const password = `${data.get('password')}`
+    if (email && password) {
+      const response = await login({
+        email,
+        password
+      });
+      if (response.user) {
+        handleSetUser(response?.user)
+        switch (response?.user.type) {
+          case RoleTypeEnum.ADMIN:
+            history.push("/users")
+            break;
+          
+          case RoleTypeEnum.SUPPLIER:
+            history.push("/releases")
+            break;
 
-  const history = useHistory()
+          case RoleTypeEnum.COMPANY:
+            history.push("/suppliers")
+            break;
+        }
+      }
+    }
+  };
 
   return (
     
@@ -63,16 +88,16 @@ export const SignIn = () => {
               autoComplete="current-password"
               variant='standard'
             />
-              <Link to="/view">
+              {/* <Link to="/view"> */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, textDecoration: null }}
             >
                 ACESSAR
             </Button>
-              </Link>
+              {/* </Link> */}
             <Link to="/singup" >
               <Typography color={'primary.main'} style={{textDecoration: 'none'}} >
                 Registre-se

@@ -59,16 +59,6 @@ export const AppTopBar = () => {
       <Menu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-            onClick={() => {setIsMenuOpen(true)}}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
             variant="h5"
             noWrap

@@ -1,45 +1,37 @@
-import { useContext, useEffect, useState } from 'react';
-import { getReleases } from '../../services/grantumApi';
+import { useEffect, useState } from 'react';
+import { getCompanies, getUsers } from '../../services/grantumApi';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { UserContext } from '../../hooks/useUser';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 160 },
-  { field: 'categoria_id', headerName: 'ID da categoria', width: 160 },
-  { field: 'conta_id', headerName: 'ID da conta', width: 160 },
+  { field: 'name', headerName: 'Nome', width: 160 },
+  { field: 'email', headerName: 'ID da conta', width: 160 },
   {
-    field: 'data_vencimento',
-    headerName: 'Vencimento',
+    field: 'cnpj',
+    headerName: 'CNPJ',
     width: 160,
   },
   {
-    field: 'data_pagamento',
-    headerName: 'Pago em',
-    width: 160,
-  },
-  {
-    field: 'descricao',
-    headerName: 'Descrição',
+    field: 'whatsapp',
+    headerName: 'Whastapp',
     width: 160,
   },
 ];
 
 
-export const ViewInvonce = () => {
-  const {user} = useContext(UserContext)
-
+export const CompanyView = () => {
   const [rows, setRows] = useState([] as any)
   useEffect(()=>{
     getAndSetRows()
 },[])
 
   const getAndSetRows = async () => {
-    const releases = await getReleases(user.supplier.granatumAccount, user.supplier.token)
+    const releases = await getCompanies()
     setRows(releases)
     
   }
   return (
-    <div style={{ height: 400, maxWidth: '80%', margin: 'auto' }}>
+    <div style={{ height: 400, maxWidth: '90%', margin: 'auto' }}>
       <DataGrid
         rows={rows}
         columns={columns}

@@ -1,5 +1,6 @@
 import { Box, Button, FormControl, InputLabel, makeStyles, MenuItem, Select, SwipeableDrawer, TextField, Typography } from "@mui/material"
-import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, SyntheticEvent, useEffect, useState } from "react";
+import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, SyntheticEvent, useContext, useEffect, useState } from "react";
+import { UserContext } from "../../hooks/useUser";
 import { creatRealese, getCategories } from "../../services/grantumApi";
 
 interface Categorie {
@@ -13,15 +14,15 @@ interface Categorie {
 
 
 export const NewTransactionDrawer = ({isDrawerOpen, setIsDrawerOpen}: any) => {
+  const {user} = useContext(UserContext)
     // const classes = useStyles();
   const [values, setValues] = useState({
     valor: '',
-    idCategoria: '',
-    idContaBancaria: 102775,
+    idCategoria: user.supplier.granatumAccount,
+    idContaBancaria: user.supplier.granatumCategorie,
     dataVencimento: '2023-12-06',
     descricao: '',
   });
-  const [categories, setCategories] = useState([] as Array<Categorie>)
 
 
   const handleChange = (name: string) => (event: { target: { value: any; }; }) => {
@@ -37,23 +38,10 @@ export const NewTransactionDrawer = ({isDrawerOpen, setIsDrawerOpen}: any) => {
     descricao: '',
     })
   }
-
-  const getAndSetCategories = async () => {
-    if (categories.length < 2) {
-        const cats = await getCategories()
-        setCategories(cats)
-    }
-
-  }
   const handleSubmit = async () => {
-    console.log('aqui')
-    await creatRealese(values)
+    await creatRealese(values, user.supplier.token)
     setIsDrawerOpen(false)
   }
-  
-  useEffect(() => {
-    getAndSetCategories()
-  },[])
 
     return (
         <SwipeableDrawer
@@ -74,42 +62,6 @@ export const NewTransactionDrawer = ({isDrawerOpen, setIsDrawerOpen}: any) => {
         margin="normal"
         fullWidth
       />
-      <FormControl sx={{ width: "100%", mt: 3 }}>
-        <InputLabel htmlFor="idCategoria-select">Categoria</InputLabel>
-        <Select
-            size='medium'
-            sx={{width: '100%'}}
-          value={values.idCategoria}
-          onChange={handleChange('idCategoria')}
-          inputProps={{
-            name: 'idCategoria',
-            id: 'idCategoria-select',
-          }}
-        >
-          {categories.map((categorie: Categorie) => (
-            <MenuItem key={categorie.id} value={categorie.id}>
-              {categorie.descricao}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl sx={{ width: "100%", mt: 3 }}>
-        <InputLabel htmlFor="idContaBancaria-select">Conta Bancária</InputLabel>
-        <Select   
-          size='medium'
-          sx={{width: '100%'}}
-          value={values.idContaBancaria}
-          onChange={handleChange('idContaBancaria')}
-          inputProps={{
-            name: 'idContaBancaria',
-            id: 'idContaBancaria-select',
-          }}
-        >
-            <MenuItem key={102775} value={102775} defaultChecked>
-              NU Pagamentos S.A
-            </MenuItem>
-        </Select>
-      </FormControl>
       <TextField
         label="Data de Vencimento"
         type="string"
