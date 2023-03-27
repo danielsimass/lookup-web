@@ -1,45 +1,79 @@
 import axios from "axios";
-const acess_token = 'b3447ff8e13e018e6b10a404490e7c959c3b13434c4fdfc43bab8b26c30e8113'
-const url = 'https://api.granatum.com.br/v1'
-const api = axios.create();
-// var request = require('request');
+import { api_url } from "../common/constants";
 
-export const getReleases = async (accountId: number) => {
-    const url = 'https://api.granatum.com.br/v1/lancamentos?access_token=b3447ff8e13e018e6b10a404490e7c959c3b13434c4fdfc43bab8b26c30e8113&conta_id=102775';
-    const config = {
-      method: 'GET',
-      url: url,
-    };
-    const res = await axios(config);
-    console.log(res.data)
+const api = axios.create({
+  baseURL: api_url,
+  timeout: 5000,
+});
+
+export const getReleases = async (accountId: number, access_token: string) => {
+    const res = await api.get(`/granatum/releases?access_token=${access_token}&accountId=${accountId}`);
     return res.data
 }
 
 export const getCategories = async () => {
-  
-  const url = 'https://api.granatum.com.br/v1/categorias?access_token=b3447ff8e13e018e6b10a404490e7c959c3b13434c4fdfc43bab8b26c30e8113';
-    const config = {
-      method: 'GET',
-      url: url,
-    };
-    const res = await axios(config);
-    console.log(res.data)
+    const res = await api.get ('/granatum/categories');
     return res.data
 }
 
-export const creatRealese = async ({valor, idCategoria, idContaBancaria, dataVencimento, descricao}: any ) => {
-  const url = 'https://api.granatum.com.br/v1/lancamentos?access_token=b3447ff8e13e018e6b10a404490e7c959c3b13434c4fdfc43bab8b26c30e8113';
-    const config = {
-      method: 'POST',
-      url: url,
-      data: {
-        descricao: descricao,
-        conta_id: idContaBancaria,
-        categoria_id: idCategoria,
-        valor: valor,
-        data_vencimento: dataVencimento
-      }
-    };
-    console.log(config.data)
-  axios(config);
+export const creatRealese = async ({valor, idCategoria, idContaBancaria, dataVencimento, descricao}: any, access_token: string ) => {
+    const data = {
+      description: descricao,
+      value: valor,
+      accountId: idContaBancaria,
+      categoryId: idCategoria,
+      dueDate: 2023-10-10
+    }
+    const res = await api.post(`/granatum/releases?access_token=${access_token}`, data);
+    return res.data
+}
+
+export const getUsers = async () => {
+  const res = await api.get('/users');
+  return res.data
+}
+
+export const getCompanies = async () => {
+  const res = await api.get('/companies');
+  console.log(res.data)
+  return res.data
+}
+
+export const createUser = async (data: any) => {
+  console.log(data)
+  const res = await api.post('/users', data)
+  console.log(res)
+  return res.data
+}
+
+export const getSuppliers = async () => {
+  const res = await api.get('/suppliers');
+  console.log(res.data)
+  return res.data
+}
+
+export const createCompany = async (data: any) => {
+  console.log(data)
+  const res = await api.post('/companies', data)
+  console.log(res)
+  return res.data
+}
+
+export const createSupplier = async (data: any) => {
+  console.log(data)
+  const res = await api.post('/suppliers', data)
+  console.log(res)
+  return res.data
+}
+
+export const getAllAccounts = async (access_token: string) => {
+  const res = await api.get(`/granatum/accounts?access_token=${access_token}`)
+  console.log(res)
+  return res.data
+}
+
+export const getAllCategories = async (access_token: string) => {
+  const res = await api.get(`/granatum/categories?access_token=${access_token}`)
+  console.log(res)
+  return res.data
 }

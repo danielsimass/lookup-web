@@ -1,36 +1,54 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import { GlobalStyle } from './styles/global';
 import { theme } from './styles/theme';
-import { LogInPage } from './pages/login';
-import { SingUpPage } from './pages/singup';
-import { ViewInvoicePage } from './pages/viewInvoice';
+import { AuthProvider } from './auth/auth.context';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AppRoutes } from './routes';
+import { ProSidebarProvider } from 'react-pro-sidebar';
+import { SideBar } from './components/sideBar';
+import { UserProvider } from './hooks/useUser';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
     <BrowserRouter>
-  <React.StrictMode>
-      <ThemeProvider theme={theme}>
-      <GlobalStyle />
-
-      <Switch>
-        <Route  path="/singup" component={SingUpPage} />
-        <Route  path='/view' component={ViewInvoicePage} />
-        <Route  path="/" component={LogInPage} />
-      </Switch>
-    </ThemeProvider>
-  </React.StrictMode>
+      <React.StrictMode>
+          <ProSidebarProvider>
+        <UserProvider>
+        <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <div style={{
+            position: "absolute",
+            width: "100vw"
+          }}>
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
+          </div>
+          <AppRoutes />
+        </ThemeProvider>
+        </AuthProvider>
+        </UserProvider>
+          </ProSidebarProvider>
+      </React.StrictMode>
     </BrowserRouter>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
